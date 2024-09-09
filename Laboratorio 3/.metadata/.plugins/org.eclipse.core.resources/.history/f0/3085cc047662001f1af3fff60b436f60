@@ -1,0 +1,21 @@
+package Biblioteca;
+
+public class ClienteServidorLibros {
+	
+	public static void main(String[] args) {
+		
+		Socket socketCliente;
+		ObjectInputStream entrada;
+		ObjectOutputStream salida;
+		
+		String consulta;
+		Object respuesta;
+		
+		try {
+			System.out.println("\nConsulta SQL:");
+			consulta=Teclado.readString();
+			SocketCliente = new Socket("localhost",8189);
+		}
+	}
+
+}

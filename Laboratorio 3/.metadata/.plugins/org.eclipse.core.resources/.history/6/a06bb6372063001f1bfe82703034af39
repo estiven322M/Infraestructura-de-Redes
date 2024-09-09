@@ -1,0 +1,29 @@
+package Presentacion;
+import Servicio.ServicioDeLibros;
+import Servicio.IServicioLibros;
+
+
+public class CatalogoLibros {
+	
+	public static void main(String[] args) {
+		var salir = false;
+		String consola;
+		
+		//agregamos la implementacion del servicio peliculas
+		IServicioLibros servicioLibros = new ServicioDeLibros();
+		
+		while(!salir) {
+			try {
+				mostrarMenu();
+				salir =ejecutarOpciones(consola,servicioLibros);
+			}
+		}catch(Exception e) {
+			System.out.println("Ocurrio un error: "+e.getMessage());
+		}
+		System.out.println();
+	}
+		
+		
+	
+
+}

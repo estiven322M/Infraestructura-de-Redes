@@ -1,0 +1,45 @@
+package Servicio;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import Dominio.Libro;
+
+public class ServicioDeLibros implements IServicioLibros{
+	
+	private final List<Libro> libros;
+	
+	public ServicioDeLibros() {
+		this.libros= new ArrayList<>();
+		
+	}
+
+	@Override
+	public void listarLibros() {
+		System.out.println("Listado de Libros: ");
+		libros.forEach(System.out::println);//se aplica un metodo de referencia
+		
+		
+	}
+
+	@Override
+	public void agregarLibro(Libro libro) {
+		libros.add(libro);
+		JOptionPane.showMessageDialog(null,"Se agrego libro: "+ libro);
+		
+		
+	}
+
+	@Override
+	public void buscarLibro(Libro libro) {
+		//regresamos el indice del libro
+		var seccion = libros.indexOf(libro);
+		System.out.println("Libro encontrado en la seccion: "+seccion+" de la biblioteca");
+		JOptionPane.showMessageDialog(null, "Libro encontrado en la seccion: "+seccion+" de la biblioteca");
+		
+		
+	}
+
+}

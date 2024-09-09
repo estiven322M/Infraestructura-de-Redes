@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;SocketWeb.java&apos; to &apos;Laboratorio3_Biblioteca/src/Dominio&apos;&#x0A;- Original project: &apos;Biblioteca&apos;&#x0A;- Destination element: &apos;Laboratorio3_Biblioteca/src/Dominio&apos;&#x0A;- Original element: &apos;Biblioteca.SocketWeb.java&apos;" description="Copy compilation unit" destination="=Laboratorio3_Biblioteca/src&lt;Dominio" element1="/src&lt;Biblioteca{SocketWeb.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1724638260921" units="1" version="1.0"/>
+</session>

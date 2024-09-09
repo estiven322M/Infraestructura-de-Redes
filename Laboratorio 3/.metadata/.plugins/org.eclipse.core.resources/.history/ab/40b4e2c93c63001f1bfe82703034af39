@@ -1,0 +1,19 @@
+package Dominio;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+
+import Dominio.Libro;
+
+public interface IServicioLibros {
+	
+	//public void listarLibros();
+	
+	public void reservarLibro(Libro libro);
+	
+	public void buscarLibro(Libro libro);
+
+	void buscarLibro(BufferedReader entrada, PrintWriter salida);
+	
+	
+
+}

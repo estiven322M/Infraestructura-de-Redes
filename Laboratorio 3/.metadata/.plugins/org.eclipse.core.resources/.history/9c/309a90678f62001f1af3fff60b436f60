@@ -1,0 +1,68 @@
+package Biblioteca;
+
+import java.net.*;
+import java.io.*;
+
+public class Servidor {
+
+	public static void main(String[] args) {
+		// Servidor: Objeto Servidor
+		// Socket: referencia de un Socket del servidor hacia el cliente
+		// salida : flujo hacia el cliente
+		// entrada: flujo que proviene del cliente
+		// linea: cadena de lectura y de escritur de flujos
+
+		ServerSocket servidor;
+		Socket socketServidor;
+		PrintWriter salida;
+		BufferedReader entrada;
+		String linea;
+
+		try {
+			servidor = new ServerSocket(8189);
+
+			try {
+				// Aqui se utiliza el SO_TIMEOUT que permite limitar el tiempo
+				// que espera el servidor. El servidor va a esperar 1 minuto para que el cliente
+				// se conecte
+				// Por defecto va a emitir un socketTimeoutException
+
+				servidor.setSoTimeout(100000);
+
+				System.out
+						.println("Un estudiante se debe conectar antes " + servidor.getSoTimeout() / 10000 + " segundos");
+
+				// El metodo accept() pide al programa esperar que un cliente se conecte.
+				// La conexion del cliente se acompaña de la creaciòn de un objeto Socket que
+				// permite dialogar con el
+				// El metodo accept() devuelve la referencia de este "Socket"
+
+				socketServidor = servidor.accept();
+				try {
+					salida = new PrintWriter(new OutputStreamWriter(socketServidor.getOutputStream(), "UTF-8"));
+					entrada = new BufferedReader(new InputStreamReader(socketServidor.getInputStream(), "UTF-8"));
+
+					// Envio del mensaje de bienvenida
+
+					salida.println("Bienvenido, apreciado estudiante!");
+					salida.flush();
+
+					// Lectura del mensaje del cliente
+
+					linea = entrada.readLine();
+					System.out.println(linea);
+				} finally {
+					socketServidor.close();
+				}
+			} catch (SocketTimeoutException e) {
+				System.out.println("Tiempo de espera de la conexiòn con el cliente alcanzada !");
+
+			} finally {
+				servidor.close();
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

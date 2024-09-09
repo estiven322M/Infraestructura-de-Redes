@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+/home/user/Escritorio/Infraestructura de Comunicaciones/Laboratorios/3_Biblioteca/.metadata/.plugins/org.eclipse.jdt.core
+3986649973.index
+537477740.index
+1865797976.index

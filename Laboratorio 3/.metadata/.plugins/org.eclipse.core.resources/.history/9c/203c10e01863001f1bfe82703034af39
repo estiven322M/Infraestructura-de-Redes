@@ -1,0 +1,25 @@
+package Servicio;
+
+import Dominio.Libro;
+
+public class ServicioDeLibros implements IServicioLibros{
+
+	@Override
+	public void listarLibros() {
+		
+		
+	}
+
+	@Override
+	public void agregarLibro(Libro libro) {
+		
+		
+	}
+
+	@Override
+	public void buscarLibro(Libro libro) {
+		
+		
+	}
+
+}

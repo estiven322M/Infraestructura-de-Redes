@@ -1,0 +1,118 @@
+body{
+    background-color: azure;
+}
+
+h1{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    font-size: 50px;
+}
+h2{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    font-size: 30px; 
+    margin: 20px;
+}
+p {
+    font-family: Arial, sans-serif; /* Cambia la fuente a una más legible */
+    font-size: 16px; /* Tamaño de fuente adecuado para la lectura */
+    line-height: 1.6; /* Espaciado entre líneas para mejorar la legibilidad */
+    text-align: justify; /* Justifica el texto para que quede alineado a ambos lados */
+    margin: 20px; /* Espacio exterior para no pegar el texto al borde */
+    padding: 10px; /* Espacio interno */
+    background-color: #f8f9fa; /* Color de fondo suave */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera para resaltar */
+}
+
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Estilo básico para todos los enlaces */
+a {
+    font-size: 22px; /* Tamaño de fuente más grande */
+    font-family: Arial, sans-serif; /* Fuente más moderna y limpia */
+    color: #007bff; /* Color azul para los enlaces */
+    text-decoration: none; /* Quitar el subrayado de los enlaces */
+    padding: 10px 15px; /* Espacio interno en los enlaces */
+    margin: 0 5px; /* Margen entre los enlaces */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave al cambiar el color de fondo */
+    
+}
+
+/* Efecto hover para que los enlaces cambien al pasar el mouse */
+a:hover {
+    background-color: #e9ecef; /* Fondo gris claro al pasar el mouse */
+    color: #0056b3; /* Cambiar el color del texto a un azul más oscuro */
+    text-decoration: underline; /* Subrayado al pasar el mouse */
+}
+
+/* Estilo para la primera tabla */
+.table1 {
+    border: 1;
+    margin: auto;
+    width: 30%;
+    background-color: rgba(158, 152, 141, 0.13); /* Color de fondo para la primeras tabla */
+    border-collapse: collapse; /* Colapsa los bordes */
+    vertical-align: top;
+    
+}
+
+/* Estilo para la segunda tabla */
+.table2 {
+    border: 1;
+    margin: auto;
+    width: 30%;
+    background-color: rgba(158, 152, 141, 0.13);; /* Color de fondo para la segunda tabla */
+    border-collapse: collapse; /* Colapsa los bordes */
+    vertical-align: top;
+    
+}
+
+/* Estilos generales para th y td */
+th, td {
+    border: 2px solid black;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+    border-spacing: 2px;
+}
+th{
+    background-color: rgb(177, 143, 101);
+
+}
+
+.form-group{
+    margin-bottom: 15px;
+
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+legend{
+    color: #0036e6;
+    font-size: 20px;
+}
+fieldset{
+    margin: 20px;
+    background-color: bisque;
+}
+.title1{
+    margin: 10px;
+}
+/* Clase para los cálculos y la edad */
+.resultado {
+    color: #2a9d8f;       /* Cambia el color del texto (ejemplo: verde azulado) */
+    font-size: 1.5em;     /* Aumenta el tamaño de la fuente (1.5 veces el tamaño normal) */
+    font-weight: bold;    /* Hace el texto en negrita */
+    font-family: Arial, sans-serif; /* Cambia la fuente */
+    margin-top: 10px;     /* Añade un espacio superior */
+}
+
+
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="CSS/estilos.css" />
+    
+    <title>Formulario Profesores</title>
+</head>
+<body>
+    
+    <h1 class="title1">Formulario Profesores</h1>
+    <a href="index.html">Página Inicio</a>
+    |
+    <a href="Facultades.html">Facultades</a>
+    |
+    <a href="https://www.uniquindio.edu.co/" target="_blank">Visitanos</a>
+    <form id="profesorForm">
+        <fieldset>
+            <legend>Datos Profesor/a</legend>
+        <div class="form-group">
+            <label for="cedula">Cédula: </label>
+            <input type="text" id="cedula" />
+        </div>
+
+        <div class="form-group">
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="nombre" />
+        </div>
+
+        <div class="form-group">
+            <label for="fecha_nacimiento">Fecha de Nacimiento: </label>
+            <input type="date" id="fecha_nacimiento" />
+        </div>
+
+        <div class="form-group">
+            <label for="edad">Edad: </label>
+            <span id="edad" class="resultado">0</span> <!-- Aquí se mostrará la edad calculada -->
+        </div>
+
+        <div class="form-group">
+            <label for="direccion">Dirección: </label>
+            <input type="text" id="direccion" />
+        </div>
+
+        <div class="form-group">
+            <label for="salario">Salario: </label>
+            <input type="number" id="salario" />
+        </div>
+
+        <div class="form-group">
+            <label for="descuentos_salud">Descuentos por salud: </label>
+            <span id="descuentos_salud" class="resultado">0</span> <!-- Muestra el descuento calculado -->
+        </div>
+
+        <div class="form-group">
+            <label for="descuentos_pension">Descuentos por pensión: </label>
+            <span id="descuentos_pension" class="resultado">0</span> <!-- Muestra el descuento calculado -->
+        </div>
+
+        <div class="form-group">
+            <label for="descuentos_solidaridad">Descuento por solidaridad pensional: </label>
+            <span id="descuentos_solidaridad" class="resultado">0</span> <!-- Muestra el descuento calculado -->
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Calcular" onclick="calcularDescuentos()" />
+            <input type="button" value="Agregar" onclick="agregarProfesor()" />
+            <input type="button" value="Eliminar" onclick="eliminarProfesor()" />
+            <input type="button" value="Consultar" onclick="consultarProfesor()" />
+            <input type="button" value="Editar" onclick="editarProfesor()" />
+        </div>
+    </fieldset>
+    </form>
+    <script src="calculos.js"></script>
+
+</body>
+</html>

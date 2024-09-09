@@ -1,0 +1,271 @@
+package Dominio;
+
+import java.net.*;
+import java.util.HashMap;
+import java.io.*;
+
+public class Servidor implements IServicioLibros {
+
+	// HashMap para almacenar coreo y claves
+	private static final HashMap<String, String> usuarios = new HashMap<>();
+	private static final String NOMBRE_ARCHIVO = "Libros.txt";
+
+	/*public static void main(String[] args) {
+
+		// Inicializa el HashMap usuarios
+		inicializarUsuarios();
+		Servidor servidorInstancia = new Servidor();
+		// Servidor: Objeto Servidor
+		// Socket: referencia de un Socket del servidor hacia el cliente
+		// salida : flujo hacia el cliente
+		// entrada: flujo que proviene del cliente
+		// linea: cadena de lectura y de escritur de flujos
+
+		ServerSocket servidor;
+		Socket socketServidor;
+		PrintWriter salida;
+		BufferedReader entrada;
+		String linea;
+		inicializarUsuarios();
+
+		try {
+			servidor = new ServerSocket(9090);
+
+			try {
+				// Aqui se utiliza el SO_TIMEOUT que permite limitar el tiempo
+				// que espera el servidor. El servidor va a esperar 1 minuto para que el cliente
+				// se conecte
+				// Por defecto va a emitir un socketTimeoutException
+
+				// servidor.setSoTimeout(100000);
+
+				//System.out.println(
+						//"Un estudiante se debe conectar antes de " + servidor.getSoTimeout() / 10000 + " segundos");
+				System.out.println("Servidor iniciado y esperando conexión en el puerto 9090...");
+				// El metodo accept() pide al programa esperar que un cliente se conecte.
+				// La conexion del cliente se acompaña de la creaciòn de un objeto Socket que
+				// permite dialogar con el
+				// El metodo accept() devuelve la referencia de este "Socket"
+
+				socketServidor = servidor.accept();
+				System.out.println("Cliente conectado");
+				manejarCliente(socketServidor);
+				
+				try {
+					salida = new PrintWriter(new OutputStreamWriter(socketServidor.getOutputStream(), "UTF-8"));
+					entrada = new BufferedReader(new InputStreamReader(socketServidor.getInputStream(), "UTF-8"));
+
+					// Envio del mensaje de bienvenida
+
+					salida.println("Bienvenido, apreciado estudiante!");
+					salida.flush();
+
+					// Lectura del mensaje del cliente
+					String email = entrada.readLine();
+					String clave = entrada.readLine();
+					if (validarCredenciales(email, clave)) {
+						salida.println("Acceso permitido");
+					} else {
+						salida.print("Acceso denegado. Credenciales incorrectas");
+					}
+					salida.flush();
+
+				} finally {
+					socketServidor.close();
+				}
+			} catch (SocketTimeoutException e) {
+				System.out.println("Tiempo de espera de la conexiòn con el cliente alcanzada !");
+
+			} finally {
+				servidor.close();
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}*/
+	
+	public static void main(String[] args) {
+        inicializarUsuarios();
+        //Servidor servidorInstance = new Servidor();
+        try {
+            ServerSocket servidor = new ServerSocket(9090);
+            System.out.println("Servidor iniciado y esperando conexión en el puerto 9090...");
+            while (true) {
+                Socket socketServidor = servidor.accept();
+                System.out.println("Cliente conectado.");
+                new Servidor ().manejarCliente(socketServidor);
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+	// Inicializa el HashMap con datos quemados
+	private static void inicializarUsuarios() {
+		usuarios.put("correo1@uqvirtual.edu.co", "1010");
+		usuarios.put("correo2@uqvirtual.edu.co", "2020");
+		usuarios.put("correo3@uqvirtual.edu.co", "3030");
+		usuarios.put("correo4@uqvirtual.edu.co", "4040");
+		usuarios.put("correo5@uqvirtual.edu.co", "5050");
+		usuarios.put("correo6@uqvirtual.edu.co", "6060");
+		usuarios.put("correo7@uqvirtual.edu.co", "7070");
+		usuarios.put("correo8@uqvirtual.edu.co", "8080");
+		usuarios.put("correo9@uqvirtual.edu.co", "9090");
+		usuarios.put("correo10@uqvirtual.edu.co", "100100");
+		usuarios.put("correo11uqvirtual.edu.co", "200200");
+
+	}
+
+	@Override
+	public void reservarLibro(Libro libro) {
+		boolean anexar = false;
+		var archivo = new File(NOMBRE_ARCHIVO);
+		try {
+			// Revisamos si existe el archivo
+			anexar = archivo.exists();
+			var salida = new PrintWriter(new FileWriter(archivo, anexar));
+
+			// agregamos el libro con el metodo toString
+			salida.println(libro);
+			salida.close();
+			System.out.println("Se agrego al archivo el libro: " + libro);
+
+		} catch (Exception e) {
+			System.out.println("Ocurrio un error al agregar el libro");
+		}
+
+	}
+	
+	private static void reservarLibro(BufferedReader entrada, PrintWriter salida) {
+	    try {
+	        // Solicitas el nombre del libro al cliente
+	        salida.println("Ingrese el nombre del libro que desea reservar:");
+	        salida.flush();
+	        String nombreLibro = entrada.readLine();
+
+	        // Creas un objeto Libro con el nombre recibido del cliente
+	        Libro libro = new Libro(nombreLibro);
+
+	        // Llamas al método original que espera un objeto Libro
+	        reservarLibro(libro);
+
+	    } catch (IOException e) {
+	        salida.println("Ocurrió un error al reservar el libro: " + e.getMessage());
+	        salida.flush();
+	    }
+	}
+
+	public void buscarLibro(Libro libro) {
+		var archivo = new File(NOMBRE_ARCHIVO);
+
+		try (var entrada = new BufferedReader(new FileReader(archivo))){
+			// abrimos el archivo para lectura linea a linea
+			//var entrada = new BufferedReader(new FileReader(archivo));
+			String lineaTexto;
+			lineaTexto = entrada.readLine();
+			var indice = 1;
+			var encontrado = false;
+			var buscarLibro = libro.getNombre();
+			while ((lineaTexto =entrada.readLine())!= null) {
+				// buscamos sin importar mayusculas o minusculas
+				if (buscarLibro != null && buscarLibro.equalsIgnoreCase(lineaTexto)) {
+					encontrado = true;
+					break;
+				}
+				// Si no encontramos el libro, leemos antes de la siguiente iteracion
+				lineaTexto = entrada.readLine();
+				indice++;
+
+			} // fin del ciclo
+				// se imprime la busqueda
+			if (encontrado == true) {
+				System.out.println("Libro " + lineaTexto + " encontrado en la seccion " + indice);
+			} else {
+				System.out.println("No se encontro el libro " + libro.getNombre());
+			}
+			entrada.close();
+
+		} catch (Exception e) {
+			System.out.println("Ocurrio un error buscando el libro " + e.getMessage());
+		}
+
+	}
+
+	private static void buscarLibro(BufferedReader entrada, PrintWriter salida) {
+		try {
+			// Solicitas el nombre del libro al cliente
+			salida.println("Ingrese el nombre del libro que desea buscar:");
+			salida.flush();
+			String nombreLibro = entrada.readLine();
+
+			// Creas un objeto Libro con el nombre recibido del cliente
+			Libro libro = new Libro(nombreLibro);
+
+			// Llamas al método original que espera un objeto Libro
+			buscarLibro(libro);
+
+		} catch (IOException e) {
+			salida.println("Ocurrió un error al buscar el libro: " + e.getMessage());
+			salida.flush();
+		}
+
+	}
+
+	// Valida las credenciales
+	public static boolean validarCredenciales(String email, String clave) {
+		return usuarios.containsKey(email) && usuarios.get(email).equals(clave);
+	}
+	
+	
+	private static void cambiarClave(String email, BufferedReader entrada, PrintWriter salida) {
+	    try {
+	        salida.println("Ingrese la nueva clave:");
+	        salida.flush();
+	        String nuevaClave = entrada.readLine();
+
+	        // Cambias la clave en el HashMap usuarios
+	        if (usuarios.containsKey(email)) {
+	            usuarios.put(email, nuevaClave);
+	            salida.println("Clave cambiada exitosamente.");
+	        } else {
+	            salida.println("El email proporcionado no está registrado.");
+	        }
+	        salida.flush();
+
+	    } catch (IOException e) {
+	        salida.println("Ocurrió un error al cambiar la clave: " + e.getMessage());
+	        salida.flush();
+	    }
+	}
+	
+
+	private  void manejarCliente(Socket socketServidor) throws IOException {
+        try (PrintWriter salida = new PrintWriter(new OutputStreamWriter(socketServidor.getOutputStream(), "UTF-8"));
+             BufferedReader entrada = new BufferedReader(new InputStreamReader(socketServidor.getInputStream(), "UTF-8"))) {
+
+            String email = entrada.readLine();
+            String clave = entrada.readLine();
+
+            if (validarCredenciales(email, clave)) {
+                salida.println("Acceso permitido");
+                salida.flush();
+                boolean activo = true;
+                while (activo) {
+                    String opcion = entrada.readLine();
+                    switch (opcion) {
+                        case "1" -> buscarLibro(entrada, salida);
+                        case "2" -> reservarLibro(entrada, salida);
+                        case "3" -> cambiarClave(email, entrada, salida);
+                        case "4" -> activo = false;
+                        default -> salida.println("Opción no válida.");
+                    }
+                    salida.flush();
+                }
+            } else {
+                salida.println("Acceso denegado. Credenciales incorrectas");
+            }
+        }
+    }
+
+}

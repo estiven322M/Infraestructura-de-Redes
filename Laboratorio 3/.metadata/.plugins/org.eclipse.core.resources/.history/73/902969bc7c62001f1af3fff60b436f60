@@ -1,0 +1,63 @@
+package Biblioteca;
+
+//SocketWeb: Test de conexiòn al servidor Web sobre la maquina local (direcion IP: 201.185.236.220),
+// puerto : 8080. Se envia una consulta HTTP de tipo GET para leer el codigo de la pagina home del servidor
+//
+//
+
+import java.net.*;
+import java.io.*;
+
+public class SocketWeb {
+	
+	public static void main(String[] args) {
+		
+		Socket socketCliente;
+		BufferedReader entrada;
+		PrintWriter salida;
+		String fila;
+		
+		try {
+			//Se intancia un objeto Socket, acompañado de un envìo de una consulta de conexión. 
+			// la cual es el envío de la dirección IP y el número de puerto de la aplicación
+			// en este caso el puerto 8080 corresponde con el servidor JEE (GlassFish instalado localmente)
+			socketCliente = new Socket ("localhost",8080);
+			System.out.println(socketCliente.getInetAddress());
+			
+			try {
+				//Apertura de un flujo de escritura para enviar las consultas al servidor
+				salida = new PrintWriter (socketCliente.getOutputStream());
+				
+				//Apertura de un flujo de lectura para recibir las respuestas del servidor
+				entrada= new BufferedReader(new InputStreamReader(socketCliente.getInputStream()));
+				
+				//Envio de consultas (simulacion HTTP)
+				//El flush () permite enviar el request...
+				//Si no lo hacemos, se rellena un buffer de escritura, y espera a que se rellene 
+				// para partir automáticamente
+				
+				salida.print("GET / HTTP/1.1\r\nHost: localhost\r\n\r\n");
+
+				salida.flush();
+				
+				//Lectura de la respuesta del servidor: se trata de la pantalla home de GlassFish
+				
+				System.out.println("\nArchivo home :\n");
+				
+				fila=entrada.readLine();
+				
+				while(fila!=null) {
+					System.out.println(fila);
+					fila=entrada.readLine();
+				}
+				
+			}
+			finally {
+				socketCliente.close();
+			}
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+}
