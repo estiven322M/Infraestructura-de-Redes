@@ -11,11 +11,12 @@ import java.net.Socket;
 
 
 public class Servidor extends Conexion {
+    
     private IServicioLibros servicioLibros;
 
     public Servidor() throws IOException {
         super("servidor");
-        servicioLibros = new ServicioArchivoLibros(); // O usar ServicioDeLibros
+        servicioLibros = new ServicioArchivoLibros();  // O ServicioDeLibros
     }
 
     public void startServer() {
@@ -27,8 +28,6 @@ public class Servidor extends Conexion {
             DataOutputStream salidaCliente = new DataOutputStream(cs.getOutputStream());
             DataInputStream entradaCliente = new DataInputStream(cs.getInputStream());
 
-            salidaCliente.writeUTF("Conexión establecida. Escribe 'buscar:<nombre>' para buscar un libro o 'listar' para ver todos los libros.");
-
             String mensaje;
             while (true) {
                 mensaje = entradaCliente.readUTF();
@@ -39,13 +38,17 @@ public class Servidor extends Conexion {
                     break;
                 }
 
-                if (mensaje.startsWith("buscar:")) {
-                    String nombreLibro = mensaje.substring(7).trim();
-                    servicioLibros.buscarLibro(new Libro(nombreLibro));
-                    salidaCliente.writeUTF("Resultado de la búsqueda: " + nombreLibro);
+                if (mensaje.startsWith("agregar:")) {
+                    String nombreLibro = mensaje.substring(8).trim();
+                    servicioLibros.agregarLibro(new Libro(nombreLibro));
+                    salidaCliente.writeUTF("Libro agregado: " + nombreLibro);
                 } else if (mensaje.equalsIgnoreCase("listar")) {
                     salidaCliente.writeUTF("Listado de libros:");
                     servicioLibros.listarLibros();
+                } else if (mensaje.startsWith("buscar:")) {
+                    String nombreLibro = mensaje.substring(7).trim();
+                    servicioLibros.buscarLibro(new Libro(nombreLibro));
+                    salidaCliente.writeUTF("Resultado de la búsqueda: " + nombreLibro);
                 } else {
                     salidaCliente.writeUTF("Comando no reconocido.");
                 }
@@ -62,4 +65,6 @@ public class Servidor extends Conexion {
             e.printStackTrace();
         }
     }
+
+  
 }

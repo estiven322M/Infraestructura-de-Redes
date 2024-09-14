@@ -1,5 +1,10 @@
-com/mycompany/laboratorio_3/MainServidor.class
 com/mycompany/laboratorio_3/Cliente.class
-com/mycompany/laboratorio_3/MainCliente.class
-com/mycompany/laboratorio_3/Conexion.class
 com/mycompany/laboratorio_3/Servidor.class
+com/mycompany/laboratorio_3/Biblioteca/Libro.class
+com/mycompany/laboratorio_3/MainServidor.class
+com/mycompany/laboratorio_3/Biblioteca/CatalogoLibros.class
+com/mycompany/laboratorio_3/MainCliente.class
+com/mycompany/laboratorio_3/Biblioteca/IServicioLibros.class
+com/mycompany/laboratorio_3/Conexion.class
+com/mycompany/laboratorio_3/Biblioteca/ServicioDeLibros.class
+com/mycompany/laboratorio_3/Biblioteca/ServicioArchivoLibros.class
