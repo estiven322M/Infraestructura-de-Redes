@@ -1,5 +1,7 @@
 
 package com.mycompany.laboratorio_3;
+import com.mycompany.laboratorio_3.Biblioteca.*;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,30 +11,26 @@ import java.net.Socket;
 
 
 public class Servidor extends Conexion {
-    
- public Servidor() throws IOException {
-        super("servidor"); // Se usa el constructor para servidor de Conexion
+    private IServicioLibros servicioLibros;
+
+    public Servidor() throws IOException {
+        super("servidor");
+        servicioLibros = new ServicioArchivoLibros(); // O usar ServicioDeLibros
     }
 
     public void startServer() {
         try {
             System.out.println("Esperando...");
-
-            cs = ss.accept(); // Aceptar la conexión del cliente
-
+            cs = ss.accept();
             System.out.println("Cliente en línea");
 
-            // Crear flujos de datos después de aceptar la conexión
             DataOutputStream salidaCliente = new DataOutputStream(cs.getOutputStream());
             DataInputStream entradaCliente = new DataInputStream(cs.getInputStream());
 
-            // Enviar mensaje de bienvenida
-            salidaCliente.writeUTF("Conexión establecida. Escribe 'salir' para cerrar la conexión.");
-            salidaCliente.flush(); // Asegúrate de enviar el mensaje inmediatamente
+            salidaCliente.writeUTF("Conexión establecida. Escribe 'buscar:<nombre>' para buscar un libro o 'listar' para ver todos los libros.");
 
             String mensaje;
             while (true) {
-                // Leer mensaje del cliente
                 mensaje = entradaCliente.readUTF();
                 System.out.println("Cliente: " + mensaje);
 
@@ -40,23 +38,28 @@ public class Servidor extends Conexion {
                     System.out.println("El cliente ha terminado la conexión.");
                     break;
                 }
-                
-                String respuesta = "Servidor : recibido tu mensaje: "+mensaje;
 
-                // Responder al cliente
-                salidaCliente.writeUTF(respuesta);
-                salidaCliente.flush(); // Asegúrate de enviar la respuesta inmediatamente
+                if (mensaje.startsWith("buscar:")) {
+                    String nombreLibro = mensaje.substring(7).trim();
+                    servicioLibros.buscarLibro(new Libro(nombreLibro));
+                    salidaCliente.writeUTF("Resultado de la búsqueda: " + nombreLibro);
+                } else if (mensaje.equalsIgnoreCase("listar")) {
+                    salidaCliente.writeUTF("Listado de libros:");
+                    servicioLibros.listarLibros();
+                } else {
+                    salidaCliente.writeUTF("Comando no reconocido.");
+                }
+
+                salidaCliente.flush();
             }
 
-            System.out.println("Fin de la conexión");
-            entradaCliente.close(); // Cerrar DataInputStream
-            salidaCliente.close(); // Cerrar DataOutputStream
-            cs.close(); // Finaliza la conexión con el cliente
-            ss.close(); // Cerrar ServerSocket
+            entradaCliente.close();
+            salidaCliente.close();
+            cs.close();
+            ss.close();
 
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace(); // Mostrar el stack trace para depurar
+            e.printStackTrace();
         }
     }
 }
